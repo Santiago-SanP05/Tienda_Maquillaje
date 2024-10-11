@@ -93,11 +93,11 @@ DELIMITER ;
 --1.
 CALL Listar_Producto_Especifico('Labial');
 --2.
-SELECT p.Nombre_producto, p.Descripcion, p.Precio, p.Stock
-FROM Productos p
-JOIN Categorias c ON p.ID_categoria = c.ID_Categoria
-WHERE c.Categoria = 'Cosméticos'  -- Cambia esta categoría según lo necesites
-AND p.Stock < 200; 
+SELECT P.Nombre_producto, P.Descripcion, P.Precio, P.Stock
+FROM Productos P
+JOIN Categorias C ON P.ID_categoria = C.ID_Categoria
+WHERE C.Categoria = 'Cosméticos'  -- Cambia esta categoría según lo necesites
+AND P.Stock < 200; 
 --3.
 SELECT v.ID_Venta, v.Fecha_venta, c.Nombre_Completo, e.Nombre_Empleado
 FROM Ventas v
