@@ -1,5 +1,6 @@
 USE Veci_tienda;
 
+-- 1. Listar todos los productos de cosméticos de un tipo específico (por ejemplo, "labial").
 DELIMITER $$
 CREATE PROCEDURE Listar_Producto_Especifico(IN Tipo_Seleccionado VARCHAR(50))
 BEGIN
@@ -10,24 +11,6 @@ BEGIN
 	WHERE t.Nombre_tipo = Tipo_Seleccionado;
 END $$
 DELIMITER ;
-
-CALL Listar_Producto_Especifico('Labial');
-
--- ----------------------------------------------------------------
-
-SELECT p.Nombre_producto, p.Descripcion, p.Precio, p.Stock
-FROM Productos p
-JOIN Categorias c ON p.ID_categoria = c.ID_Categoria
-WHERE c.Categoria = 'Cosméticos' 
-AND p.Stock < 200; 
-
-
-SELECT v.ID_Venta, v.Fecha_venta, c.Nombre_Completo, e.Nombre_Empleado
-FROM Ventas v
-JOIN Clientes c ON v.ID_cliente = c.ID_Cliente
-JOIN Empleados e ON v.ID_empleado = e.ID_Empleado
-WHERE c.Nombre_Completo = 'María García' 
-AND v.Fecha_venta BETWEEN '2024-10-01' AND '2024-10-12';  
 
 -- 6. Consultar el stock disponible de un producto por su nombre o identificador.
 DELIMITER //
@@ -108,15 +91,35 @@ DELIMITER ;
 -- LLAMADOS DE CONSULTAS
 
 --1.
-
+CALL Listar_Producto_Especifico('Labial');
 --2.
-
+SELECT p.Nombre_producto, p.Descripcion, p.Precio, p.Stock
+FROM Productos p
+JOIN Categorias c ON p.ID_categoria = c.ID_Categoria
+WHERE c.Categoria = 'Cosméticos'  -- Cambia esta categoría según lo necesites
+AND p.Stock < 200; 
 --3.
-
+SELECT v.ID_Venta, v.Fecha_venta, c.Nombre_Completo, e.Nombre_Empleado
+FROM Ventas v
+JOIN Clientes c ON v.ID_cliente = c.ID_Cliente
+JOIN Empleados e ON v.ID_empleado = e.ID_Empleado
+WHERE c.Nombre_Completo = 'María García'
+AND v.Fecha_venta BETWEEN '2024-10-01' AND '2024-10-12'; 
 --4.
-
+SELECT e.Nombre_Empleado, COUNT(v.ID_Venta) AS Total_Ventas
+FROM Ventas v
+JOIN Empleados e ON v.ID_empleado = e.ID_Empleado
+WHERE e.Nombre_Empleado = 'Laura Gómez'  
+AND MONTH(v.Fecha_venta) = 10  
+AND YEAR(v.Fecha_venta) = 2024  
+GROUP BY e.Nombre_Empleado;
 --5.
-
+SELECT
+	P.Nombre_producto as Producto,
+    VP.Cantidad as CantidadProducto
+ FROM Productos P
+ JOIN Ventas_Productos VP ON P.ID_Producto = VP.ID_producto
+ ORDER BY (VP.Cantidad) DESC;
 --6.
 CALL ConsultarStock('Labial Rouge', NULL);
 --7.
