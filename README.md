@@ -20,6 +20,10 @@ La base de datos consta de varias tablas interrelacionadas:
 - **Ventas**: Registra las transacciones de ventas.
 - **Orden_proveedores**: Gestiona las órdenes de compra realizadas a proveedores.
 
+
+![Diagrama E-R](/uml.png)
+
+
 ## Instalación
 
 1. **Crear la base de datos**:
