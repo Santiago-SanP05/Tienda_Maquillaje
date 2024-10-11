@@ -1,0 +1,112 @@
+CREATE DATABASE IF NOT EXISTS Veci_tienda;
+
+USE Veci_tienda;
+
+
+CREATE TABLE IF NOT EXISTS Tipos(
+ID_Tipo INT PRIMARY KEY AUTO_INCREMENT,
+Nombre_tipo VARCHAR(100) NOT NULL 
+);
+CREATE TABLE IF NOT EXISTS Categorias(
+ID_Categoria INT PRIMARY KEY AUTO_INCREMENT,
+Categoria VARCHAR(100) NOT NULL 
+);
+CREATE TABLE IF NOT EXISTS Productos(
+ID_Producto INT PRIMARY KEY AUTO_INCREMENT,
+Nombre_producto VARCHAR(100) NOT NULL,
+Descripcion TEXT NOT NULL,
+Precio INT NOT NULL,
+Stock INT,
+ID_tipo INT,
+ID_categoria INT,
+FOREIGN KEY (ID_tipo) REFERENCES Tipos(ID_Tipo),
+FOREIGN KEY (ID_categoria) REFERENCES Categorias(ID_Categoria)
+);
+
+
+CREATE TABLE IF NOT EXISTS Clientes(
+ID_Cliente INT PRIMARY KEY AUTO_INCREMENT,
+Nombre_Completo VARCHAR(100) NOT NULL,
+Correo VARCHAR(100) NOT NULL,
+Direccion VARCHAR(100) NOT NULL,
+Telefono INT NOT NULL 
+);
+ 
+
+
+
+CREATE TABLE IF NOT EXISTS Area_Trabajo(
+ID_Area INT PRIMARY KEY AUTO_INCREMENT,
+Nombre_Empleado VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Puesto_Trabajo(
+ID_Puesto INT PRIMARY KEY AUTO_INCREMENT,
+Nombre_Puesto VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Empresa(
+ID_Empresa INT PRIMARY KEY AUTO_INCREMENT,
+Nombre_Empresa  VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Empleados(
+ID_Empleado INT PRIMARY KEY AUTO_INCREMENT,
+Nombre_Empleado VARCHAR(100) NOT NULL,
+Fecha_Contratacion DATE NOT NULL,
+ID_area INT,
+ID_puesto INT,
+ID_empresa INT,
+FOREIGN KEY(ID_area) REFERENCES Area_Trabajo (ID_Area),
+FOREIGN KEY(ID_puesto) REFERENCES Puesto_Trabajo (ID_Puesto),
+FOREIGN KEY(ID_empresa) REFERENCES Empresa (ID_Empresa)
+);
+
+CREATE TABLE IF NOT EXISTS Ventas(
+ID_Venta INT PRIMARY KEY AUTO_INCREMENT,
+Fecha_venta DATE NOT NULL,
+ID_cliente INT,
+ID_empleado INT,
+FOREIGN KEY(ID_cliente) REFERENCES Clientes(ID_Cliente),
+FOREIGN KEY(ID_empleado) REFERENCES Empleados(ID_Empleado)
+);
+
+
+CREATE TABLE IF NOT EXISTS Ventas_Productos(
+ID_Venta_Producto INT PRIMARY KEY AUTO_INCREMENT,
+Cantidad INT NOT NULL,
+ID_producto INT,
+ID_venta INT,
+FOREIGN KEY (ID_producto) REFERENCES Productos(ID_Producto),
+FOREIGN KEY (ID_venta) REFERENCES Ventas(ID_Venta)
+);
+
+CREATE TABLE IF NOT EXISTS Contacto(
+ID_Contacto INT PRIMARY KEY AUTO_INCREMENT,
+Nombre_Contacto VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Proveedores(
+ID_Proveedor INT PRIMARY KEY AUTO_INCREMENT,
+Nombre_Proveedor VARCHAR(100) NOT NULL,
+Telefono INT NOT NULL,
+Direccion VARCHAR(100) NOT NULL,
+ID_contacto INT,
+FOREIGN KEY (ID_contacto) REFERENCES Contacto (ID_Contacto)
+);
+
+
+
+CREATE TABLE IF NOT EXISTS Orden_proveedores(
+ID_Orden_proveedores INT PRIMARY KEY AUTO_INCREMENT,
+Fecha_Orden DATE NOT NULL,
+Cantidad_Ordenada INT NOT NULL,
+Cantidad_Entregado INT NOT NULL,
+ID_proveedor INT,
+ID_empresa INT,
+ID_producto INT,
+FOREIGN KEY (ID_proveedor) REFERENCES Proveedores (ID_Proveedor),
+FOREIGN KEY (ID_empresa) REFERENCES Empresa (ID_Empresa),
+FOREIGN KEY (ID_producto) REFERENCES Productos (ID_Producto)
+);
+
